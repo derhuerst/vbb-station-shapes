@@ -1,6 +1,6 @@
 # vbb-station-shapes
 
-**Shapefiles for Berlin public transport stations**, extracted from [BVG PDFs](http://www.bvg.de/de/standortplan/9009202). Because VBB/BVG don't provide them. :angry:
+**Shapefiles for Berlin public transport stations**, extracted from [BVG PDFs](http://www.bvg.de/de/standortplan/9009202) by parsing the PDF [in a terrible way](build/index.js). Because VBB/BVG don't provide them. :angry:
 
 [![npm version](https://img.shields.io/npm/v/vbb-station-shapes.svg)](https://www.npmjs.com/package/vbb-station-shapes)
 [![build status](https://img.shields.io/travis/derhuerst/vbb-station-shapes.svg)](https://travis-ci.org/derhuerst/vbb-station-shapes)
