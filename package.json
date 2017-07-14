@@ -22,6 +22,10 @@
 		"node": ">=6"
 	},
 	"dependencies": {
+		"lodash.omit": "^4.5.0",
+		"svgpath": "^2.2.1",
+		"virtual-dom": "^2.1.1",
+		"virtual-dom-stringify": "^3.0.1"
 	},
 	"devDependencies": {
 		"pdfjs-dist": "^1.8.444",
