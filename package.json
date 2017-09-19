@@ -24,8 +24,10 @@
 	"dependencies": {
 	},
 	"devDependencies": {
-		"tape": "^4.6.3",
-		"tap-min": "^1.2.2"
+		"alkis-berlin-client": "github:derhuerst/alkis-berlin-client",
+		"stream-filter": "^2.1.0",
+		"tap-min": "^1.2.2",
+		"tape": "^4.6.3"
 	},
 	"scripts": {
 		"build": "node build/index.js",
