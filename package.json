@@ -24,13 +24,17 @@
 	"dependencies": {
 	},
 	"devDependencies": {
+		"@turf/centroid": "^4.7.3",
 		"alkis-berlin-client": "github:derhuerst/alkis-berlin-client",
+		"gps-distance": "^0.0.4",
 		"stream-filter": "^2.1.0",
 		"tap-min": "^1.2.2",
-		"tape": "^4.6.3"
+		"tape": "^4.6.3",
+		"through2": "^2.0.3",
+		"vbb-stations": "^5.5.0"
 	},
 	"scripts": {
-		"build": "node build/index.js",
+		"build": "rm s/*.json; node build/index.js",
 		"test": "node test.js | tap-min",
 		"prepublishOnly": "npm run build && npm test"
 	}
