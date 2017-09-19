@@ -22,19 +22,14 @@
 		"node": ">=6"
 	},
 	"dependencies": {
-		"lodash.omit": "^4.5.0",
-		"svgpath": "^2.2.1",
-		"virtual-dom": "^2.1.1",
-		"virtual-dom-stringify": "^3.0.1"
 	},
 	"devDependencies": {
-		"pdfjs-dist": "^1.8.444",
 		"tape": "^4.6.3",
-		"tap-min": "^1.2.1"
+		"tap-min": "^1.2.2"
 	},
 	"scripts": {
 		"build": "node build/index.js",
 		"test": "node test.js | tap-min",
-		"prepublishOnly": "npm test"
+		"prepublishOnly": "npm run build && npm test"
 	}
 }
