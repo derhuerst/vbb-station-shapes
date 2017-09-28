@@ -21,12 +21,11 @@
 	"engines": {
 		"node": ">=6"
 	},
-	"dependencies": {
-	},
 	"devDependencies": {
 		"@turf/centroid": "^4.7.3",
-		"alkis-berlin-client": "github:derhuerst/alkis-berlin-client",
+		"alkis-berlin-client": "^0.1.0",
 		"gps-distance": "^0.0.4",
+		"queue": "^4.4.1",
 		"stream-filter": "^2.1.0",
 		"tap-min": "^1.2.2",
 		"tape": "^4.6.3",
