@@ -76,10 +76,8 @@ const processBbox = (bbox) => {
 
 		s.on('data', (data) => {
 			findStationForShape(data, (err, result) => {
-				if (err) {
-					console.error(err.message || (err + ''))
-					process.exitCode = 1
-				} else console.info(result.station, '->', result.shape)
+				if (err) console.error(err.message || (err + ''))
+				else console.info(result.station, '->', result.shape)
 			})
 		})
 		s.once('end', () => cb())
@@ -90,15 +88,15 @@ const processBbox = (bbox) => {
 }
 
 const queue = createQueue({
-	concurrency: 1, // todo
+	concurrency: 4,
 	autostart: true
 })
 queue.on('error', showError)
 
 const berlin = [416868 - 10, 5799302 + 10, 369095 + 10, 5838240 - 10]
 const [maxX, minY, minX, maxY] = berlin
-const dX = (maxX - minX) / 20
-const dY = (maxY - minY) / 20
+const dX = (maxX - minX) / 40
+const dY = (maxY - minY) / 40
 for (let x = minX; x < maxX; x += dX) {
 	for (let y = minY; y < maxY; y += dY) {
 		const tile = [
