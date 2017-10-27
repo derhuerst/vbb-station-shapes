@@ -8,7 +8,6 @@ const distance = require('gps-distance')
 const shorten = require('vbb-short-station-name')
 const leven = require('leven')
 const centroid = require('@turf/centroid')
-const through = require('through2')
 const createQueue = require('queue')
 
 const shapesStream = require('./shapes-stream')
@@ -28,7 +27,7 @@ const writeShape = (id, shape, cb) => {
 
 // see merge-vbb-stations for a more advanced algorithm
 // https://github.com/derhuerst/merge-vbb-stations/blob/c6718dad00673bb250d1d16e63ccde4e6887f78d/index.js#L14-L71
-const onShape = (result, _, cb) => {
+const findStationForShape = (result, cb) => {
 	const center = centroid(result.shape)
 	const [cLon, cLat] = center.geometry.coordinates
 	const rName = result.name ? shorten(result.name) : null
@@ -63,28 +62,27 @@ const onShape = (result, _, cb) => {
 	}
 	writeShape(station.id, result.shape, (err) => {
 		if (err) return cb(err)
-		console.info(station.id, '->', result.id)
-		cb()
+		cb(null, {station: station.id, shape: result.id})
 	})
 }
 
 const processBbox = (bbox) => {
 	const job = (cb) => {
-		console.log('bbox', bbox)
 		const s = shapesStream(bbox)
 		s.once('error', (err) => {
 			s.destroy()
 			cb(err)
 		})
 
-		// todo: use a stream.Writable instead of through
-		const t = s.pipe(through.obj(onShape))
-		t.on('data', () => {})
-		t.on('error', (err) => {
-			console.error(err.message || (err + ''))
-			process.exitCode = 1
+		s.on('data', (data) => {
+			findStationForShape(data, (err, result) => {
+				if (err) {
+					console.error(err.message || (err + ''))
+					process.exitCode = 1
+				} else console.info(result.station, '->', result.shape)
+			})
 		})
-		t.once('end', () => cb())
+		s.once('end', () => cb())
 	}
 
 	job.title = bbox.join(',')
