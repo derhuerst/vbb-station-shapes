@@ -5,6 +5,8 @@ const path = require('path')
 const fs = require('fs')
 const linesAt = require('vbb-lines-at')
 const distance = require('gps-distance')
+const shorten = require('vbb-short-station-name')
+const leven = require('leven')
 const centroid = require('@turf/centroid')
 const through = require('through2')
 const createQueue = require('queue')
@@ -24,9 +26,12 @@ const writeShape = (id, shape, cb) => {
 	fs.writeFile(dest, JSON.stringify(shape), cb)
 }
 
+// see merge-vbb-stations for a more advanced algorithm
+// https://github.com/derhuerst/merge-vbb-stations/blob/c6718dad00673bb250d1d16e63ccde4e6887f78d/index.js#L14-L71
 const onShape = (result, _, cb) => {
 	const center = centroid(result.shape)
 	const [cLon, cLat] = center.geometry.coordinates
+	const rName = result.name ? shorten(result.name) : null
 
 	const closeBy = []
 	for (let station of allStations) {
@@ -35,10 +40,14 @@ const onShape = (result, _, cb) => {
 		if (!hasSubway) continue
 
 		const s = station.coordinates
-		const d = distance(cLat, cLon, s.latitude, s.longitude)
-		// todo: take the Levenshtein distance into account
-		// currently it fails with Hallesches Tor U6
-		if (d < .1) closeBy.push(station) // <100m
+		const km = distance(cLat, cLon, s.latitude, s.longitude)
+		if (km > .25) continue
+
+		if (km < .1) closeBy.push(station) // <100m
+		else if (rName) {
+			const d = leven(rName, station.name)
+			if (d <= 2) closeBy.push(station)
+		}
 
 		if (closeBy.length > 1) {
 			return cb(new Error(result.id + ' has more than 1 close-by station.'))
@@ -47,6 +56,9 @@ const onShape = (result, _, cb) => {
 
 	const station = closeBy[0]
 	if (!station) {
+		if (!rName) {
+			return cb(new Error(result.id + ' has no name to identify it by'))
+		}
 		return cb(new Error(result.id + ' has no close-by station'))
 	}
 	writeShape(station.id, result.shape, (err) => {
@@ -56,9 +68,9 @@ const onShape = (result, _, cb) => {
 	})
 }
 
-// todo: store all in one additional file
 const processBbox = (bbox) => {
 	const job = (cb) => {
+		console.log('bbox', bbox)
 		const s = shapesStream(bbox)
 		s.once('error', (err) => {
 			s.destroy()
