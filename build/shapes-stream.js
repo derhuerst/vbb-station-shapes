@@ -27,6 +27,10 @@ const isSubwayStation = (s) => (
 
 const layer = 'fis:s_wfs_alkis_bauwerkeflaechen'
 const createShapesStream = (bbox) => {
+	const [west, south, east, north] = bbox
+	if (west <= east) throw new Error('west must be larger than east.')
+	if (north <= south) throw new Error('north must be larger than south.')
+
 	const src = getItems(layer, bbox, {parse})
 	const dest = filter.obj(isSubwayStation)
 

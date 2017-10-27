@@ -3,6 +3,7 @@
 const getStations = require('vbb-stations')
 const path = require('path')
 const fs = require('fs')
+const linesAt = require('vbb-lines-at')
 const distance = require('gps-distance')
 const centroid = require('@turf/centroid')
 const through = require('through2')
@@ -29,8 +30,14 @@ const onShape = (result, _, cb) => {
 
 	const closeBy = []
 	for (let station of allStations) {
+		const lines = linesAt[station.id]
+		const hasSubway = lines && lines.some(l => l.product === 'subway')
+		if (!hasSubway) continue
+
 		const s = station.coordinates
 		const d = distance(cLat, cLon, s.latitude, s.longitude)
+		// todo: take the Levenshtein distance into account
+		// currently it fails with Hallesches Tor U6
 		if (d < .1) closeBy.push(station) // <100m
 
 		if (closeBy.length > 1) {
@@ -58,15 +65,14 @@ const processBbox = (bbox) => {
 			cb(err)
 		})
 
+		// todo: use a stream.Writable instead of through
 		const t = s.pipe(through.obj(onShape))
 		t.on('data', () => {})
 		t.on('error', (err) => {
-			console.error(err.message)
+			console.error(err.message || (err + ''))
 			process.exitCode = 1
 		})
-		t.once('end', () => {
-			cb()
-		})
+		t.once('end', () => cb())
 	}
 
 	job.title = bbox.join(',')
