@@ -66,6 +66,7 @@ const findStationForShape = (result, cb) => {
 	})
 }
 
+const stationIDs = new Set()
 const processBbox = (bbox) => {
 	const job = (cb) => {
 		const s = shapesStream(bbox)
@@ -77,7 +78,10 @@ const processBbox = (bbox) => {
 		s.on('data', (data) => {
 			findStationForShape(data, (err, result) => {
 				if (err) console.error(err.message || (err + ''))
-				else console.info(result.station, '->', result.shape)
+				else {
+					stationIDs.add(result.station)
+					console.info(result.station, '->', result.shape)
+				}
 			})
 		})
 		s.once('end', () => cb())
@@ -109,3 +113,10 @@ for (let x = minX; x < maxX; x += dX) {
 		queue.push(processBbox(tile))
 	}
 }
+
+queue.once('end', () => {
+	const dest = path.join(__dirname, 'list.json')
+	fs.writeFile(dest, JSON.stringify(Array.from(stationIDs)), (err) => {
+		if (err) showError(err)
+	})
+})

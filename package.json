@@ -5,7 +5,8 @@
 	"main": "index.js",
 	"files": [
 		"index.js",
-		"s"
+		"s",
+		"list.json"
 	],
 	"keywords": [
 		"vbb",
