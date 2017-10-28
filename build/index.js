@@ -115,7 +115,7 @@ for (let x = minX; x < maxX; x += dX) {
 }
 
 queue.once('end', () => {
-	const dest = path.join(__dirname, 'list.json')
+	const dest = path.join(__dirname, '..', 'list.json')
 	fs.writeFile(dest, JSON.stringify(Array.from(stationIDs)), (err) => {
 		if (err) showError(err)
 	})
