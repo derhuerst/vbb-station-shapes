@@ -17,13 +17,21 @@ npm install vbb-station-shapes
 
 ## Usage
 
-When called with a station ID, `vbb-station-shapes` returns a path to a [GeoJSON](http://geojson.org/) shape file.
+When called with a station ID (and optionally a product), `vbb-station-shapes` returns a list of shape IDs for that station.
 
 ```js
-const pathForShape = require('vbb-station-shapes')
+const shapes = require('vbb-station-shapes')
+const {pathForShape} = shapes
 
-const ruhleben = '900000025202'
-const path = pathForShape(ruhleben)
+const sWedding = '900000009104'
+
+const shapeIds = shapes(sWedding, 'subway')
+```
+
+`pathForShape` then returns an absolute path to the [GeoJSON](http://geojson.org/) shape file.
+
+```js
+const path = shapes.pathForShape(shapeIds[0])
 console.log(path)
 ```
 
@@ -71,7 +79,8 @@ console.log(shape)
 		[ 13.241831, 52.525461 ],
 		[ 13.242001, 52.525424 ],
 		[ 13.242004, 52.525428 ]
-	]]]
+	]]],
+	product: 'subway'
 }
 ```
 
