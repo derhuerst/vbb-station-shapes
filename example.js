@@ -1,8 +1,10 @@
 'use strict'
 
-const pathForShape = require('.')
+const shapes = require('.')
+const {pathForShape} = shapes
 
-const ruhleben = '900000025202'
-const path = pathForShape(ruhleben)
-const shape = require(path)
+const sWedding = '900000009104'
+
+const [path] = shapes(sWedding, 'subway')
+const shape = require(pathForShape(path))
 console.log(shape)
