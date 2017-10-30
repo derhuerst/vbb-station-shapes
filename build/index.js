@@ -93,8 +93,8 @@ const processBbox = (bbox) => {
 
 				let l = shapeIDs[res.station]
 				if (!l) l = shapeIDs[res.station] = []
-				if (!l.includes(res.shape)) {
-					l.push({file: res.shape, product: res.product})
+				if (!l.some(x => x.file === res.file)) {
+					l.push({file: res.file, product: res.product})
 				}
 				console.info(res.station, '->', res.file)
 			})
