@@ -62,13 +62,20 @@ const findStationForShape = (result, cb) => {
 		}
 		return cb(new Error(result.id + ' has no close-by station'))
 	}
-	writeShape(station.id, result.shape, (err) => {
+
+	result.shape.product = product
+	writeShape(result.id, result.shape, (err) => {
 		if (err) return cb(err)
-		cb(null, {station: station.id, shape: result.id})
+		cb(null, {
+			station: station.id,
+			shape: result.id,
+			product
+		})
 	})
 }
 
-const stationIDs = new Set()
+const shapeIDs = Object.create(null) // arrays, by station ID
+
 const processBbox = (bbox) => {
 	const job = (cb) => {
 		const s = shapesStream(bbox)
@@ -78,12 +85,15 @@ const processBbox = (bbox) => {
 		})
 
 		s.on('data', (data) => {
-			findStationForShape(data, (err, result) => {
-				if (err) console.error(err.message || (err + ''))
-				else {
-					stationIDs.add(result.station)
-					console.info(result.station, '->', result.shape)
+			findStationForShape(data, (err, res) => {
+				if (err) return console.error(err.message || (err + ''))
+
+				let l = shapeIDs[res.station]
+				if (!l) l = shapeIDs[res.station] = []
+				if (!l.includes(res.shape)) {
+					l.push({shape: res.shape, product: res.product})
 				}
+				console.info(res.station, '->', res.shape)
 			})
 		})
 		s.once('end', () => cb())
@@ -118,7 +128,7 @@ for (let x = minX; x < maxX; x += dX) {
 
 queue.once('end', () => {
 	const dest = path.join(__dirname, '..', 'list.json')
-	fs.writeFile(dest, JSON.stringify(Array.from(stationIDs)), (err) => {
+	fs.writeFile(dest, JSON.stringify(shapeIDs), (err) => {
 		if (err) showError(err)
 	})
 })
