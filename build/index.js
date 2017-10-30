@@ -11,6 +11,7 @@ const centroid = require('@turf/centroid')
 const createQueue = require('queue')
 
 const shapesStream = require('./shapes-stream')
+const catCodes = require('./cat-codes')
 
 const showError = (err) => {
 	console.error(err)
@@ -28,6 +29,7 @@ const writeShape = (id, shape, cb) => {
 // see merge-vbb-stations for a more advanced algorithm
 // https://github.com/derhuerst/merge-vbb-stations/blob/c6718dad00673bb250d1d16e63ccde4e6887f78d/index.js#L14-L71
 const findStationForShape = (result, cb) => {
+	const product = catCodes[result.railwayCat.id]
 	const center = centroid(result.shape)
 	const [cLon, cLat] = center.geometry.coordinates
 	const rName = result.name ? shorten(result.name) : null
@@ -35,8 +37,8 @@ const findStationForShape = (result, cb) => {
 	const closeBy = []
 	for (let station of allStations) {
 		const lines = linesAt[station.id]
-		const hasSubway = lines && lines.some(l => l.product === 'subway')
-		if (!hasSubway) continue
+		const hasProduct = lines && lines.some(l => l.product === product)
+		if (!hasProduct) continue
 
 		const s = station.coordinates
 		const km = distance(cLat, cLon, s.latitude, s.longitude)

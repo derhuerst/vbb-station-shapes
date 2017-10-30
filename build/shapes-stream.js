@@ -5,6 +5,8 @@ const parseStructure = require('alkis-berlin-client/lib/parse-structure')
 const {findIn, textOf} = require('alkis-berlin-client/lib/helpers')
 const filter = require('stream-filter')
 
+const catCodes = require('./cat-codes')
+
 const parse = (s) => {
 	const r = parseStructure(s)
 	r.railwayCat = {
@@ -19,10 +21,10 @@ const parse = (s) => {
 	return r
 }
 
-const isSubwayStation = (s) => (
+const isValidStation = (s) => (
 	s.aaa === 'AX_Bahnverkehrsanlage' &&
-	s.railwayCat.id === '1202' &&
-	s.trainStationCat.id === '1020'
+	s.trainStationCat.id === '1020' &&
+	(s.railwayCat.id in catCodes)
 )
 
 const layer = 'fis:s_wfs_alkis_bauwerkeflaechen'
@@ -32,7 +34,7 @@ const createShapesStream = (bbox) => {
 	if (north <= south) throw new Error('north must be larger than south.')
 
 	const src = getItems(layer, bbox, {parse})
-	const dest = filter.obj(isSubwayStation)
+	const dest = filter.obj(isValidStation)
 
 	src.pipe(dest)
 	src.on('error', (err) => {
