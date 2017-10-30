@@ -18,7 +18,7 @@ const shapes = (station, product = null) => {
 
 	let results = shapeIds[station] || []
 	if (product) results = results.filter(r => r.product === product)
-	return results.map(r => r.shape)
+	return results.map(r => r.file)
 }
 
 shapes.pathForShape = pathForShape

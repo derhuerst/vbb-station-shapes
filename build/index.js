@@ -9,6 +9,7 @@ const shorten = require('vbb-short-station-name')
 const leven = require('leven')
 const centroid = require('@turf/centroid')
 const createQueue = require('queue')
+const hash = require('shorthash').unique
 
 const shapesStream = require('./shapes-stream')
 const catCodes = require('./cat-codes')
@@ -21,8 +22,8 @@ const showError = (err) => {
 const allStations = getStations('all')
 
 const dir = path.join(__dirname, '..', 's')
-const writeShape = (id, shape, cb) => {
-	const dest = path.join(dir, id + '.json')
+const writeShape = (file, shape, cb) => {
+	const dest = path.join(dir, file)
 	fs.writeFile(dest, JSON.stringify(shape), cb)
 }
 
@@ -63,12 +64,14 @@ const findStationForShape = (result, cb) => {
 		return cb(new Error(result.id + ' has no close-by station'))
 	}
 
+	const shapeFile = hash(result.id) + '.json'
+	result.shape.id = result.id
 	result.shape.product = product
-	writeShape(result.id, result.shape, (err) => {
+	writeShape(shapeFile, result.shape, (err) => {
 		if (err) return cb(err)
 		cb(null, {
 			station: station.id,
-			shape: result.id,
+			file: shapeFile,
 			product
 		})
 	})
@@ -91,9 +94,9 @@ const processBbox = (bbox) => {
 				let l = shapeIDs[res.station]
 				if (!l) l = shapeIDs[res.station] = []
 				if (!l.includes(res.shape)) {
-					l.push({shape: res.shape, product: res.product})
+					l.push({file: res.shape, product: res.product})
 				}
-				console.info(res.station, '->', res.shape)
+				console.info(res.station, '->', res.file)
 			})
 		})
 		s.once('end', () => cb())
