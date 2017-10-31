@@ -21,9 +21,11 @@ const parse = (s) => {
 	return r
 }
 
+const haltestelle = '1020'
+const bahnhof = '1010'
 const isValidStation = (s) => (
 	s.aaa === 'AX_Bahnverkehrsanlage' &&
-	s.trainStationCat.id === '1020' &&
+	(s.trainStationCat.id === haltestelle || s.trainStationCat.id === bahnhof) &&
 	(s.railwayCat.id in catCodes)
 )
 
