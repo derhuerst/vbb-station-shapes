@@ -7,8 +7,8 @@ script:
   - npm run build
   - npm test
 before_deploy:
-  - ls -lh s/*.json
-  - npm i semver
+  - ls -lh s/*.json | wc -l
+  - npm i --no-save semver
   - npm version --no-git-tag-version --force --allow-same-version $(./node_modules/.bin/semver -i minor $(npm info vbb-station-shapes version))
 deploy:
   provider: npm
