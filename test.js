@@ -8,7 +8,7 @@ const {pathForShape} = shapes
 const friedrichstr = '900000100001'
 const doesNotExist = '123456789012'
 // todo: this might break
-const someShape = 'ZOv5MK'
+const someShape = 'ZOv5MK.json'
 
 test('shapes: should throw if not used properly', (t) => {
 	t.plan(2)

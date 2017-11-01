@@ -6,10 +6,10 @@ const shapeIds = require('./list.json')
 
 const dir = path.join(__dirname, 's')
 
-const pathForShape = (shapeId) => {
-	if ('string' !== typeof shapeId) throw new Error('shapeId must be a string')
-	if (shapeId.length === 0) throw new Error('shapeId is invalid')
-	return path.join(dir, shapeId + '.json')
+const pathForShape = (file) => {
+	if ('string' !== typeof file) throw new Error('file must be a string')
+	if (file.length === 0) throw new Error('file is invalid')
+	return path.join(dir, file)
 }
 
 const shapes = (station, product = null) => {

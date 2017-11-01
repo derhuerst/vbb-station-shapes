@@ -25,7 +25,6 @@ const processResult = (result, cb) => {
 	let stationId
 
 	try {
-		console.error(result.id, result.shape, product, result.name)
 		stationId = findStationForShape(result.id, result.shape, product, result.name)
 	} catch (err) {
 		return cb(err)
