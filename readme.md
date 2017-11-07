@@ -2,6 +2,8 @@
 
 **Shapefiles for Berlin public transport stations**, extracted from [the cadastral map of Berlin](https://fbinter.stadt-berlin.de/fb/index.jsp?loginkey=zoomStart&mapId=wmsk_alkis@senstadt&bbox=390525,5817516,390903,5817739). Because VBB/BVG don't provide them. :angry:
 
+[![Kottbusser Tor shape](kotti-shape.png)](https://bl.ocks.org/anonymous/raw/b17b1c9883b8e7e08026fbfc986d9b9f/)
+
 [![npm version](https://img.shields.io/npm/v/vbb-station-shapes.svg)](https://www.npmjs.com/package/vbb-station-shapes)
 [![build status](https://img.shields.io/travis/derhuerst/vbb-station-shapes.svg)](https://travis-ci.org/derhuerst/vbb-station-shapes)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-station-shapes.svg)
