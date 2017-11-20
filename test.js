@@ -1,6 +1,7 @@
 'use strict'
 
 const test = require('tape')
+const isValidGeoJSON = require('geojson-is-valid')
 
 const shapes = require('.')
 const {pathForShape} = shapes
@@ -37,13 +38,13 @@ test('pathForShape: should throw if not used properly', (t) => {
 })
 
 test('pathForShape: should return a valid GeoJSON shape file', (t) => {
-	t.plan(3)
+	t.plan(4)
 	const path = pathForShape(someShape)
 	t.ok(path)
 	t.equal(typeof path, 'string')
 	if ('string' === typeof path) {
 		const shape = require(path)
 		t.ok(shape)
-		// todo: test if valid GeoJSON
+		t.ok(isValidGeoJSON(shape))
 	}
 })

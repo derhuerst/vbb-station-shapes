@@ -26,6 +26,7 @@
 	"devDependencies": {
 		"@turf/centroid": "^4.7.3",
 		"alkis-berlin-client": "^0.2.1",
+		"geojson-is-valid": "^0.0.5",
 		"gps-distance": "^0.0.4",
 		"leven": "^2.1.0",
 		"queue": "^4.4.1",
