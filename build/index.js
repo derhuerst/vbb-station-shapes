@@ -46,6 +46,8 @@ const shapeIDs = Object.create(null) // arrays, by station ID
 
 const processBbox = (bbox) => {
 	const job = (cb) => {
+		console.info(bbox.join(' '))
+
 		const s = shapesStream(bbox)
 		s.once('error', (err) => {
 			s.destroy()
@@ -54,7 +56,7 @@ const processBbox = (bbox) => {
 
 		s.on('data', (data) => {
 			processResult(data, (err, res) => {
-				if (err) return console.error(err.message || (err + ''))
+				if (err) return console.error(err && err.message || (err + ''))
 
 				let l = shapeIDs[res.station]
 				if (!l) l = shapeIDs[res.station] = []
