@@ -22,7 +22,7 @@ const findStationForShape = (id, shape, product, name) => {
 		const hasProduct = lines && lines.some(l => l.product === product)
 		if (!hasProduct) continue
 
-		const s = station.coordinates
+		const s = station.location
 		const km = distance(cLat, cLon, s.latitude, s.longitude)
 		if (km > .25) continue
 
