@@ -8,6 +8,7 @@
 [![build status](https://img.shields.io/travis/derhuerst/vbb-station-shapes.svg)](https://travis-ci.org/derhuerst/vbb-station-shapes)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-station-shapes.svg)
 [![chat on gitter](https://badges.gitter.im/derhuerst.svg)](https://gitter.im/derhuerst)
+[![support me on Patreon](https://img.shields.io/badge/support%20me-on%20patreon-fa7664.svg)](https://patreon.com/derhuerst)
 
 
 ## Installing
@@ -38,7 +39,7 @@ console.log(path)
 ```
 
 ```
-/Users/j/web/vbb-station-shapes/s/900000025202.json
+/Users/j/web/vbb-station-shapes/s/2798Fr.json
 ```
 
 You may `require` this file or load it in any other way.

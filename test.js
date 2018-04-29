@@ -9,7 +9,7 @@ const {pathForShape} = shapes
 
 const friedrichstr = '900000100001'
 const doesNotExist = '123456789012'
-const {file} = list[friedrichstr][0]
+const {file} = list[friedrichstr] && list[friedrichstr][0] || {}
 
 test('shapes: should throw if not used properly', (t) => {
 	t.plan(2)
