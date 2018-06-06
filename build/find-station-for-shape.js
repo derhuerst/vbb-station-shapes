@@ -1,7 +1,7 @@
 'use strict'
 
 const getStations = require('vbb-stations')
-const centroid = require('@turf/centroid')
+const centroid = require('@turf/centroid').default
 const shorten = require('vbb-short-station-name')
 const linesAt = require('vbb-lines-at')
 const distance = require('gps-distance')
