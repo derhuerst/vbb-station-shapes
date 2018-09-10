@@ -8,15 +8,15 @@ const catCodes = require('./cat-codes')
 
 const parseRailwayCat = (s) => {
 	return {
-		id: textOf(findIn(s, 'fis:Bahnkategorie_schluessel')) || null,
-		name: textOf(findIn(s, 'fis:Bahnkategorie_bezeichnung')) || null
+		id: textOf(findIn(s, 'fis:Bahnkategorie_schluessel') || findIn(s, 'fis:BKT')) || null,
+		name: textOf(findIn(s, 'fis:Bahnkategorie_bezeichnung') || findIn(s, 'fis:BEZBKT')) || null
 	}
 }
 const parseTrainStationCat = (s) => {
 	return {
-		id: textOf(findIn(s, 'fis:Bahnhofskategorie_schluessel')) || null,
+		id: textOf(findIn(s, 'fis:Bahnhofskategorie_schluessel') || findIn(s, 'fis:BFK')) || null,
 		// note the typo!
-		name: textOf(findIn(s, 'fis:Bahnhofskategorie_bezeichnug')) || null
+		name: textOf(findIn(s, 'fis:Bahnhofskategorie_bezeichnug') || findIn(s, 'fis:BEZBFK')) || null
 	}
 }
 const additionalFields = {
