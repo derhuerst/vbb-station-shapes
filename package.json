@@ -28,15 +28,15 @@
 		"alkis-berlin-client": "^1.0.5",
 		"geojson-is-valid": "^0.0.5",
 		"gps-distance": "^0.0.4",
-		"leven": "^2.1.0",
-		"queue": "^4.4.1",
+		"leven": "^3.1.0",
+		"queue": "^6.0.1",
 		"shorthash": "^0.0.2",
 		"stream-filter": "^2.1.0",
-		"tap-min": "^1.2.2",
+		"tap-min": "^2.0.0",
 		"tape": "^4.6.3",
-		"vbb-lines-at": "^3.8.0",
+		"vbb-lines-at": "^4.0.0",
 		"vbb-short-station-name": "^1.0.1",
-		"vbb-stations": "^6.4.0"
+		"vbb-stations": "^7.1.0"
 	},
 	"scripts": {
 		"build": "rm s/*.json list.json; env NODE_ENV=dev node build/index.js",
