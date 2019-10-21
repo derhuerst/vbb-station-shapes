@@ -29,11 +29,12 @@
 		"geojson-is-valid": "^0.0.5",
 		"gps-distance": "^0.0.4",
 		"leven": "^3.1.0",
+		"pump": "^3.0.0",
 		"queue": "^6.0.1",
 		"shorthash": "^0.0.2",
-		"stream-filter": "^2.1.0",
 		"tap-min": "^2.0.0",
 		"tape": "^4.6.3",
+		"through2": "^3.0.1",
 		"vbb-lines-at": "^4.0.0",
 		"vbb-short-station-name": "^1.0.1",
 		"vbb-stations": "^7.1.0"
